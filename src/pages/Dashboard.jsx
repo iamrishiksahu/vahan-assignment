@@ -30,9 +30,6 @@ const Dashboard = () => {
     },
   ])
 
-  const handleFieldItemDelete = (id) => {
-    alert(id)
-  }
   const handleEntityAction = (action, entity) => {
     let newList = entityList;
     switch (action) {
@@ -42,37 +39,42 @@ const Dashboard = () => {
         break
       case 'TOGGLE_EDIT':
         // Toggle edit parameter
-        newList[newList.findIndex(item => item.id === entity.id)] = {...entity, edit: !entity.edit}
-
-        // console.log(newList)
+        newList[newList.findIndex(item => item.id === entity.id)] = entity
         break
-
-
       case 'UPDATE_TITLE':
         //update title
         newList[newList.findIndex(item => item.id === entity.id)] = entity
         break
     }
-    console.log(newList)
     setEntityList(newList)
   }
-  useEffect(() => {
-    console.log(entityList)
-  }, [entityList])
-  const handleEntitySideBarItemClick = (type) => {
 
-    setEntityList(list => [...list, {
+  const handleEntitySideBarItemClick = (type) => {
+    const itemID = `user.list.${entityList.length}`
+    const newItem = {
       fieldName: '',
       type: ENTITY_TYPES[type],
-      id: `user.list.${entityList.length}`,
+      id: itemID,
       edit: true
-    }])
+    }
 
-
-
-
-    // alert(type)
+    setEntityList(list => [...list, newItem])
   }
+
+  const handleSaveClick = () => {
+
+    // check if any field is in edit mode
+    entityList.forEach((item, idx) => {
+      if (item.edit == true) {
+        alert('Please save all field names!')
+        return
+      }
+    })
+
+    // Save the entityList to the database and create a new table definition
+
+  }
+
   return (
     // <Sidebar/>
     <PageParent sx={{ flexDirection: 'row', backgroundColor: '#f6f6f6' }}>
@@ -84,15 +86,15 @@ const Dashboard = () => {
 
         {entityList.map((item, idx) => {
           return (
-            <EntityItem key={idx}
+            <EntityItem
+              key={idx}
               handleAction={handleEntityAction}
               item={item}
-
             />
           )
         })}
 
-        <Button variant='contained' >Save</Button>
+        <Button variant='contained' onClick={handleSaveClick} >Save</Button>
 
       </FlexBox>
 

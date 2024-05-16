@@ -3,13 +3,10 @@ import React, { useRef, useState } from 'react'
 import { FlexBox } from '../uiElements/AllContainers'
 import { ENTITY_TYPES } from '../../utils/EntityTypes'
 
-const EntityItem = ({ item,  handleAction }) => {
-
-    // mode: VIEW | EDIT
+const EntityItem = ({ item, handleAction }) => {
 
     if (!item.type || !item.id) {
         const err = (!item.type ? 'Type' : 'ID') + ' is missing in the props!'
-        console.log(err)
         return (<>{err}</>)
     }
 
@@ -20,12 +17,10 @@ const EntityItem = ({ item,  handleAction }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-
         uploadUpdateFieldName()
     }
 
     const uploadUpdateFieldName = () => {
-
         const newName = nameRef.current.value
         if (newName.length <= 0) {
             setHelperText('Please set the field name!')
@@ -36,10 +31,15 @@ const EntityItem = ({ item,  handleAction }) => {
         item.edit = false
 
         handleAction('UPDATE_TITLE', item)
-        // handleAction('TOGGLE_EDIT', item)
+        setEditMode(false)
+    }
 
-        // alert(nameRef.current.value)
-        // setEditMode(prev => !prev)
+    const closeEditMode = () => {
+        uploadUpdateFieldName()
+    }
+    const openEditMode = () => {
+        handleAction('TOGGLE_EDIT', {...item, edit: true})
+        setEditMode(true)
     }
 
     return (
@@ -56,7 +56,7 @@ const EntityItem = ({ item,  handleAction }) => {
             }}>
                 <Tooltip title={item.type.name}>
                     {/* <IconButton> */}
-                        <i className={ENTITY_TYPES[item.type.name].icon} />
+                    <i className={ENTITY_TYPES[item.type.name].icon} />
                     {/* </IconButton> */}
                 </Tooltip>
                 <FlexBox sx={{ justifyContent: 'flex-start' }}>
@@ -68,6 +68,7 @@ const EntityItem = ({ item,  handleAction }) => {
                                 size='small'
                                 inputRef={nameRef}
                                 placeholder='Field Name'
+                                autoFocus
                                 error={helperText ? true : false}
                                 onChange={() => {
                                     if (helperText != null) setHelperText(null)
@@ -81,7 +82,7 @@ const EntityItem = ({ item,  handleAction }) => {
 
                             />
                         </form>
-                        : <><Typography>{item.fieldName}</Typography></>}
+                        : <><Typography sx={{padding: '0.5rem 0'}}>{item.fieldName}</Typography></>}
                 </FlexBox>
 
                 {/* Actions */}
@@ -90,10 +91,10 @@ const EntityItem = ({ item,  handleAction }) => {
                         style={{ cursor: 'pointer' }}
                         onClick={() => {
                             if (editMode) {
-                                uploadUpdateFieldName()
-                            }else{
-                                handleAction('TOGGLE_EDIT', item)
-                                // setEditMode(true)
+                                closeEditMode()
+                            } else {
+                                openEditMode()
+
                             }
                         }} />
                     <i className='fa fa-trash-o'
