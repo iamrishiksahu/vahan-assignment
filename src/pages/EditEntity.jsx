@@ -8,7 +8,7 @@ import EntityItem from '../components/entities/EntityItem'
 import { ENTITY_TYPES } from '../utils/EntityTypes'
 import { useNavigate, useParams } from 'react-router-dom'
 
-const EntityPage = () => {
+const EditEntity = () => {
 
   const { id } = useParams()
   const navigate = useNavigate()
@@ -18,7 +18,7 @@ const EntityPage = () => {
 
   useEffect(() => {
     if (!id) {
-      navigate('/')      
+        navigate('/')
     } else {
 
       // Fetch Entity Data
@@ -84,11 +84,14 @@ const EntityPage = () => {
     }
 
     // Save the entityList to the database and create a new table definition
+
+
+
   }
 
   return (
     // <Sidebar/>
-    <PageParent sx={{ flexDirection: 'row', backgroundColor: '#f6f6f6', height: '100vh', paddingLeft: '25rem', overflowY: 'auto' }}>
+    <PageParent sx={{ flexDirection: 'row', backgroundColor: 'var(--bg-main)', height: '100vh', paddingLeft: '25rem', overflowY: 'auto' }}>
 
       <FlexBox column sx={{
         position: 'fixed',
@@ -134,4 +137,4 @@ const EntityPage = () => {
   )
 }
 
-export default EntityPage
+export default EditEntity

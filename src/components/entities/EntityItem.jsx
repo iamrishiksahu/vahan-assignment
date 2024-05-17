@@ -1,7 +1,8 @@
-import { Box, IconButton, TextField, Tooltip, Typography } from '@mui/material'
+import { Box, TextField, Tooltip, Typography } from '@mui/material'
 import React, { useRef, useState } from 'react'
 import { FlexBox } from '../uiElements/AllContainers'
 import { ENTITY_TYPES } from '../../utils/EntityTypes'
+import EntityIconContainer from '../uiElements/EntityIconContainer'
 
 const EntityItem = ({ item, handleAction }) => {
 
@@ -38,7 +39,7 @@ const EntityItem = ({ item, handleAction }) => {
         uploadUpdateFieldName()
     }
     const openEditMode = () => {
-        handleAction('TOGGLE_EDIT', {...item, edit: true})
+        handleAction('TOGGLE_EDIT', { ...item, edit: true })
         setEditMode(true)
     }
 
@@ -51,13 +52,11 @@ const EntityItem = ({ item, handleAction }) => {
                 ":hover": {
                     boxShadow: '0 0 10px #00000008'
                 }
-
-
             }}>
                 <Tooltip title={item.type.name}>
-                    {/* <IconButton> */}
-                    <i className={ENTITY_TYPES[item.type.name].icon} />
-                    {/* </IconButton> */}
+
+                    <EntityIconContainer icon={item.type.icon} color={item.type.primary} bgColor={item.type.secondary} />
+
                 </Tooltip>
                 <FlexBox sx={{ justifyContent: 'flex-start' }}>
                     {editMode ?
@@ -82,7 +81,7 @@ const EntityItem = ({ item, handleAction }) => {
 
                             />
                         </form>
-                        : <><Typography sx={{padding: '0.5rem 0'}}>{item.fieldName}</Typography></>}
+                        : <><Typography sx={{ padding: '0.5rem 0' }}>{item.fieldName}</Typography></>}
                 </FlexBox>
 
                 {/* Actions */}

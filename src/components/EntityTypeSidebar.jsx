@@ -2,6 +2,7 @@ import React from 'react'
 import { FlexBox, GridBox } from './uiElements/AllContainers'
 import { Box, Typography } from '@mui/material'
 import { ENTITY_TYPES } from '../utils/EntityTypes';
+import EntityIconContainer from './uiElements/EntityIconContainer';
 
 const EntityTypeSidebar = ({ handleClick }) => {
 
@@ -59,22 +60,10 @@ const SideBarItem = ({ name, icon, primaryColor, secondaryColor }) => {
                 }
 
             }}>
-            <Box sx={{
-                borderRadius: '0.25rem',
-                backgroundColor: secondaryColor,
-                display: 'flex',
-                width: '2rem',
-                height: '2rem',
-                alignItems: 'center',
-                justifyContent: 'center'
 
-            }}>
+            <EntityIconContainer icon={icon} color={primaryColor} bgColor={secondaryColor} />
 
-                <i className={icon} style={{ color: primaryColor }} />
-
-            </Box>
-
-            <Typography>{name.slice(0,1) + name.slice(1).toLowerCase()}</Typography>
+            <Typography>{name.slice(0, 1) + name.slice(1).toLowerCase()}</Typography>
 
         </FlexBox>
     )

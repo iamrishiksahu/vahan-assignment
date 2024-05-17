@@ -6,8 +6,10 @@ import { FaHome } from 'react-icons/fa'
 const Sidebar = () => {
   return (
     <PageParent sx={{
-        width: '5rem',
+        width: '13rem',
         height: '100vh',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
         backgroundColor: 'var(--color-primary-light)'
     }}>
 
@@ -29,7 +31,9 @@ export default Sidebar
 const SidebarItem = ({icon, title}) => {
 
     return(
-        <FlexBox>
+        <FlexBox sx={{
+            justifyContent: 'flex-start'
+        }}>
             <i className={icon} style={{color: 'grey'}}/>
             <Typography variant='p'>{title}</Typography>
         </FlexBox>

@@ -1,6 +1,8 @@
 :root {
 
     --color-primary-light: #fff;
+    --bg-main: #f6f6f6;
+    --box-shadow-popup: 0 0 2rem #00000010;
 
 }
 
