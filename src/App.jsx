@@ -12,14 +12,8 @@ function App() {
     <>
 
       <Routes>
-        <Route path='/'>
-          <Route index element={<Dashboard />} />
-          <Route path='entity/:id' element={<EntityPage />}/>
-          <Route path='edit-entity/:id' element={<EditEntity />}/>
-        </Route>
-
-
-        <Route path='*' element={<Page404/>}/>
+        <Route path='/*' element={<Dashboard />} />
+        <Route path='*' element={<Page404 />} />
 
       </Routes>
 

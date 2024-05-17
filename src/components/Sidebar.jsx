@@ -1,12 +1,11 @@
 import React from 'react'
 import { FlexBox, PageParent } from './uiElements/AllContainers'
 import { Typography } from '@mui/material'
-import { FaHome } from 'react-icons/fa'
 
 const Sidebar = () => {
   return (
     <PageParent sx={{
-        width: '13rem',
+        width: '16rem',
         height: '100vh',
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
@@ -17,10 +16,6 @@ const Sidebar = () => {
 
         <SidebarItem icon={"fa fa-home"} title='Dashboard'/>
         <SidebarItem icon={"fa fa-home"} title='Entities'/>
-        
-
-
-
 
     </PageParent>
   )

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Sidebar from '../components/Sidebar'
 import { Box, Button, Typography } from '@mui/material'
 import { FlexBox, PageParent } from '../components/uiElements/AllContainers'
-import EntityTypeSidebar from '../components/EntityTypeSidebar'
+import AttributeTypeSidebar from '../components/AttributeTypeSidebar'
 import TextEntity from '../components/entities/EntityItem'
 import EntityItem from '../components/entities/EntityItem'
 import { ENTITY_TYPES } from '../utils/EntityTypes'
@@ -12,13 +12,13 @@ const EditEntity = () => {
 
   const { id } = useParams()
   const navigate = useNavigate()
-  
+
   const [entityData, setEntityData] = useState(null)
   const [entityList, setEntityList] = useState([])
 
   useEffect(() => {
     if (!id) {
-        navigate('/')
+      navigate('/')
     } else {
 
       // Fetch Entity Data
@@ -84,55 +84,67 @@ const EditEntity = () => {
     }
 
     // Save the entityList to the database and create a new table definition
-
-
-
   }
 
   return (
-    // <Sidebar/>
-    <PageParent sx={{ flexDirection: 'row', backgroundColor: 'var(--bg-main)', height: '100vh', paddingLeft: '25rem', overflowY: 'auto' }}>
+    <PageParent sx={{
+      justifyContent: 'flex-start',
+      backgroundColor: '#f6f6f6',
+      height: '100vh',
+      overflowY: 'auto',
+      padding: '2.5rem',
+      paddingTop: '1rem',
+      alignItems: 'flex-start'
+    }}>
 
-      <FlexBox column sx={{
-        position: 'fixed',
-        left: '1rem',
-        top: '1rem',
-        justifyContent: 'flex-start',
-        width: 'max-content',
-      }}>
-        <EntityTypeSidebar handleClick={handleEntitySideBarItemClick} />
+      <Typography
+        variant='link'
+        onClick={() => navigate('/')}>
+        <i className='fa fa-angle-left' /> &emsp;Back
+      </Typography>
 
-      </FlexBox>
-      <Box sx={{
-        height: '100%',
-        width: '100%',
-        justifyContent: 'flex-start',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '1rem',
-      }}>
-        <FlexBox sx={{ justifyContent: 'space-between' }}>
-          <Button variant='outlined'>+ Create Entity</Button>
-          <Button variant='contained' onClick={handleSaveClick} >Save</Button>
+      <FlexBox gap={'2.5rem'}>
 
+        <Box sx={{
+          height: '100%',
+          width: '100%',
+          justifyContent: 'flex-start',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1rem',
+        }}>
+          <FlexBox sx={{ justifyContent: 'space-between', marginTop: '0.5rem'}}>
+            <Typography variant='h3'>Entity Name</Typography>
+            <Button variant='contained' onClick={handleSaveClick} >Save</Button>
+
+          </FlexBox>
+
+
+          {entityList.map((item, idx) => {
+            return (
+              <EntityItem
+                key={idx}
+                handleAction={handleEntityAction}
+                item={item}
+              />
+            )
+          })}
+
+
+        </Box>
+
+        <FlexBox column sx={{
+          padding: '1rem',
+          alignItems: 'flex-start',
+          width: 'max-content',
+          backgroundColor: 'white'
+        }}>
+          <AttributeTypeSidebar handleClick={handleEntitySideBarItemClick} />
         </FlexBox>
 
+      </FlexBox>
 
-        {entityList.map((item, idx) => {
-          return (
-            <EntityItem
-              key={idx}
-              handleAction={handleEntityAction}
-              item={item}
-            />
-
-          )
-        })}
-
-      </Box>
-
-
-    </PageParent>
+    </PageParent >
 
   )
 }

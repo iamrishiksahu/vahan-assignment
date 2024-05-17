@@ -4,7 +4,7 @@ import { Box, Typography } from '@mui/material'
 import { ENTITY_TYPES } from '../utils/EntityTypes';
 import EntityIconContainer from './uiElements/EntityIconContainer';
 
-const EntityTypeSidebar = ({ handleClick }) => {
+const AttributeTypeSidebar = ({ handleClick }) => {
 
 
     const mysqlDataTypes = [
@@ -22,20 +22,25 @@ const EntityTypeSidebar = ({ handleClick }) => {
 
 
     return (
-        <GridBox cols={2} sx={{ backgroundColor: '#fff', padding: '1rem' }}>
-            {Object.keys(ENTITY_TYPES).map((keyName, idx) => {
-                const item = ENTITY_TYPES[keyName]
-                return (
-                    <div onClick={() => handleClick(keyName)}>
-                        <SideBarItem key={idx} name={item.name} primaryColor={item.primary} secondaryColor={item.secondary} icon={item.icon} />
-                    </div>
+
+        <>
+
+            <Typography variant='h6' color={'#444'} textAlign={'left'}>Attributes</Typography>
+            <GridBox cols={2} sx={{ backgroundColor: '#fff' }}>
+                {Object.keys(ENTITY_TYPES).map((keyName, idx) => {
+                    const item = ENTITY_TYPES[keyName]
+                    return (
+                        <div onClick={() => handleClick(keyName)}>
+                            <SideBarItem key={idx} name={item.name} primaryColor={item.primary} secondaryColor={item.secondary} icon={item.icon} />
+                        </div>
 
 
-                )
-            })}
+                    )
+                })}
 
 
-        </GridBox>
+            </GridBox>
+        </>
     )
 }
 
@@ -69,4 +74,4 @@ const SideBarItem = ({ name, icon, primaryColor, secondaryColor }) => {
     )
 }
 
-export default EntityTypeSidebar
+export default AttributeTypeSidebar
