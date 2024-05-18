@@ -1,45 +1,61 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Typography } from '@mui/material'
 import { FlexBox, GridBox, PageParent } from './uiElements/AllContainers'
 import CreateEntityPopup from './CreateEntityPopup'
 import EntityItem from './entities/EntityItem'
 import EntityCard from './EntityCard'
+import { axiosInstance } from '../../config/axiosConfig'
 
 const DashboardMain = () => {
     const [createEntityOpen, setCreateEntityOpen] = useState(false)
     const [entityList, setEntityList] = useState([
         {
-            name: 'Students',
+            tablename: 'Students',
             description: 'Table for storing student data.',
             id: 1,
             createdAt: '',
             updatedAt: ''
         }, {
-            name: 'Students',
+            tablename: 'Students',
             description: 'Table for storing student data.',
             id: 1,
             createdAt: '',
             updatedAt: ''
         }, {
-            name: 'Students',
+            tablename: 'Students',
             description: 'Table for storing student data.',
             id: 1,
             createdAt: '',
             updatedAt: ''
         }, {
-            name: 'Students',
+            tablename: 'Students',
             description: 'Table for storing student data.',
             id: 1,
             createdAt: '',
             updatedAt: ''
         }, {
-            name: 'Students',
+            tablename: 'Students',
             description: 'Table for storing student data.',
             id: 1,
             createdAt: '',
             updatedAt: ''
         },
     ])
+
+    useEffect(() => {
+        const getAllTables = async () => {
+            try{
+                const res = await axiosInstance.get('/get-tables')
+                console.log(res.data)
+                setEntityList(res.data)
+            }catch(err){
+                console.log(err)
+                alert('Oops! Something went wrong!')
+            } 
+        }
+
+        getAllTables()
+    }, [])
 
     return (
         <PageParent sx={{

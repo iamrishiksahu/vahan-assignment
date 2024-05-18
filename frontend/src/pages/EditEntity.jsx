@@ -1,43 +1,27 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Sidebar from '../components/Sidebar'
-import { Box, Button, Typography } from '@mui/material'
+import { Box, Button, TextField, Typography } from '@mui/material'
 import { FlexBox, PageParent } from '../components/uiElements/AllContainers'
 import AttributeTypeSidebar from '../components/AttributeTypeSidebar'
 import TextEntity from '../components/entities/EntityItem'
 import EntityItem from '../components/entities/EntityItem'
 import { ENTITY_TYPES } from '../utils/EntityTypes'
 import { useNavigate, useParams } from 'react-router-dom'
+import { axiosInstance } from '../../config/axiosConfig'
 
 const EditEntity = () => {
 
-  const { id } = useParams()
+  const { name } = useParams()
+  const tableNameRef = useRef()
   const navigate = useNavigate()
 
-  const [entityData, setEntityData] = useState(null)
   const [entityList, setEntityList] = useState([])
 
   useEffect(() => {
-    if (!id) {
+    if (!name) {
       navigate('/')
-    } else {
-
-      // Fetch Entity Data
-
-      setEntityData({
-        attributeList: [{
-          fieldName: 'sdf',
-          type: ENTITY_TYPES['BOOLEAN'],
-          id: 'sdf',
-          edit: true
-        }]
-      })
-
     }
   }, [])
-
-  useEffect(() => {
-    setEntityList(entityData?.attributeList || [])
-  }, [entityData])
 
 
   const handleEntityAction = (action, entity) => {
@@ -60,7 +44,7 @@ const EditEntity = () => {
   }
 
   const handleEntitySideBarItemClick = (type) => {
-    const itemID = `user.list.${entityList.length}`
+    const itemID = `${name}-${entityList.length}-${ENTITY_TYPES[type].name}`
     const newItem = {
       fieldName: '',
       type: ENTITY_TYPES[type],
@@ -71,16 +55,38 @@ const EditEntity = () => {
     setEntityList(list => [...list, newItem])
   }
 
-  const handleSaveClick = () => {
+  const handleSaveClick = async () => {
 
     // check if any field is in edit mode
 
     for (let i = 0; i < entityList.length; i++) {
-
       if (entityList[i].edit == true) {
         alert('Please save all field names!')
-        break
+        return
       }
+    }
+
+    try {
+
+      const res = await axiosInstance.post('/create-table', {
+        table: tableNameRef.current.value,
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+        attributes: entityList
+      })
+
+      if(res.status === 201){
+        alert('Table definition created successfully!')
+        navigate('/')
+      }
+
+    } catch (err) {
+
+      if (err?.response?.status == 409) {
+        return alert('This table name already exists! Please change the table name.')
+      }
+      alert('Oops! Something went wrong.')
+      console.log(err)
     }
 
     // Save the entityList to the database and create a new table definition
@@ -113,8 +119,13 @@ const EditEntity = () => {
           flexDirection: 'column',
           gap: '1rem',
         }}>
-          <FlexBox sx={{ justifyContent: 'space-between', marginTop: '0.5rem'}}>
-            <Typography variant='h3'>Entity Name</Typography>
+          <FlexBox sx={{ justifyContent: 'space-between', marginTop: '0.5rem' }}>
+            <TextField
+              // sx={{ backgroundColor: 'white' }}
+              variant='standard'
+              size='small'
+              defaultValue={name}
+              inputRef={tableNameRef} />
             <Button variant='contained' onClick={handleSaveClick} >Save</Button>
 
           </FlexBox>

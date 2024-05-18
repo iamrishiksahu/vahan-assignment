@@ -21,8 +21,8 @@ const Dashboard = () => {
 
         <Routes>
           <Route index element={<DashboardMain />} />
-          <Route path='entity/:id' element={<EntityPage />} />
-          <Route path='edit-entity/:id' element={<EditEntity />} />
+          <Route path='entity/:name' element={<EntityPage />} />
+          <Route path='edit-entity/:name' element={<EditEntity />} />
         </Routes>
     </Box>
   )

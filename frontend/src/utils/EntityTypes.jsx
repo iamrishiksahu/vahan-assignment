@@ -2,7 +2,7 @@ export const ENTITY_TYPES = Object.freeze({
     TEXT: {
         name: "TEXT",
         icon: "fa fa-text-width",
-        dataType: "",
+        dataType: "TEXT",
         description: "",
         primary: '#00bf7d', secondary: '#00bf7d08',
         
@@ -10,7 +10,7 @@ export const ENTITY_TYPES = Object.freeze({
     CHARACTER: {
         name: "CHARACTER",
         icon: "fa fa-font",
-        dataType: "",
+        dataType: "CHAR(1)",
         description: "",
         primary: '#054fb9', secondary: '#054fb908',
 
@@ -19,7 +19,7 @@ export const ENTITY_TYPES = Object.freeze({
     BOOLEAN: {
         name: "BOOLEAN",
         icon: "fa fa-toggle-off",
-        dataType: "",
+        dataType: "BOOLEAN",
         description: "",
         primary: '#b51963', secondary: '#b5196308',
 
@@ -28,7 +28,7 @@ export const ENTITY_TYPES = Object.freeze({
     EMAIL: {
         name: "EMAIL",
         icon: "fa fa-envelope-o",
-        dataType: "",
+        dataType: "TEXT",
         description: "",
         primary: '#800080', secondary: '#80008008',
 
@@ -37,7 +37,7 @@ export const ENTITY_TYPES = Object.freeze({
     INTEGER: {
         name: "INTEGER",
         icon: "fa fa-sort-numeric-asc",
-        dataType: "",
+        dataType: "INT",
         description: "",
         primary: '#e6308a', secondary: '#e6308a08',
 
@@ -46,7 +46,7 @@ export const ENTITY_TYPES = Object.freeze({
     DECIMAL: {
         name: "DECIMAL",
         icon: "fa fa-text-width",
-        dataType: "",
+        dataType: "FLOAT(4)",
         description: "",
         primary: '#c44601', secondary: '#c4460108',
 
@@ -55,7 +55,7 @@ export const ENTITY_TYPES = Object.freeze({
     DATE: {
         name: "DATE",
         icon: "fa fa-calendar",
-        dataType: "",
+        dataType: "DATE",
         description: "",
         primary: '#5ba300', secondary: '#5ba30008',
 
@@ -64,7 +64,7 @@ export const ENTITY_TYPES = Object.freeze({
     TIME: {
         name: "TIME",
         icon: "fa fa-clock-o",
-        dataType: "",
+        dataType: "TIME",
         description: "",
         primary: '#800000', secondary: '#80000008',
         
@@ -72,7 +72,7 @@ export const ENTITY_TYPES = Object.freeze({
     PASSWORD: {
         name: "PASSWORD",
         icon: "fa fa-unlock-alt",
-        dataType: "",
+        dataType: "TEXT",
         description: "",
         primary: '#054fb9', secondary: '#054fb908',
     },

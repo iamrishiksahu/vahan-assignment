@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react'
 import { FlexBox, PageParent } from './uiElements/AllContainers'
 import { Box, Button, TextField, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
+import { axiosInstance as axios } from '../../config/axiosConfig'
 
 const CreateEntityPopup = ({ handleClose }) => {
 
@@ -13,36 +14,21 @@ const CreateEntityPopup = ({ handleClose }) => {
     const navigate = useNavigate()
     const [helperText, setHelperText] = useState(null)
 
-    const generateRandomEntityId = () => {
-        const ds = Date.now().toString()
-        const id = "table_" +  Math.ceil(Math.random()*10000000) +  ds
-
-        return id
-    }
 
     const handleCreate = (e) => {
         e.preventDefault()
-        const data = titleRef.current.value
-        if (data === "") {
+        const tableName = titleRef.current.value
+        if (tableName === "") {
             setHelperText('Please set the entity title!')
             return
         }
 
-        const tableId = generateRandomEntityId()
 
-        const newTable = {
-            name: data,
-            createdAt: Date.now(),
-            updatedAt: Date.now(),
-            id: tableId,
-        }
+       
+        navigate(`/edit-entity/${tableName}`)
+
         // save the table to DB
-
-        // On success -> Redirect
-        navigate(`/edit-entity/${tableId}`)
-
-        // On Failure -> 
-        setHelperText('Something went wrong! Please try again later.')
+        // saveTableToDB(newTable)
     }
 
     return (
@@ -81,10 +67,10 @@ const CreateEntityPopup = ({ handleClose }) => {
                         if (helperText != null) setHelperText(null)
                     }}
                     helperText={helperText}
-                    inputRef={titleRef} size='small' variant='outlined' 
+                    inputRef={titleRef} size='small' variant='outlined'
                     placeholder='Entity Name'
                     label='Entity Name'
-                     autoFocus />
+                    autoFocus />
                 <Button onClick={handleCreate} variant='outlined' > Create</Button>
             </PageParent>
         </>

@@ -1,4 +1,4 @@
-import { Box, TextField, Tooltip, Typography } from '@mui/material'
+import { Box, MenuItem, Select, TextField, Tooltip, Typography } from '@mui/material'
 import React, { useRef, useState } from 'react'
 import { FlexBox } from '../uiElements/AllContainers'
 import { ENTITY_TYPES } from '../../utils/EntityTypes'
@@ -19,12 +19,35 @@ const EntityItem = ({ item, handleAction }) => {
     const handleSubmit = (e) => {
         e.preventDefault()
         uploadUpdateFieldName()
+
+    }
+
+    const isFieldNameValid = (newName) => {
+        const notStartingWithNumber = RegExp("^[0-9]")
+        const aplhaNumericWithUnderscore = RegExp("^[A-Za-z0-9_]+$")
+
+        if (newName.length <= 0) {
+            setHelperText('Please set the field name!')
+            return false
+        } else if (newName.includes(' ')) {
+            setHelperText('Space is not allowed!')
+            return false
+        } else if (notStartingWithNumber.test(newName)) {
+            setHelperText('Cannot start with a number!')
+            return false
+        } else if (!aplhaNumericWithUnderscore.test(newName)) {
+            setHelperText('Special characters are not allowed except "_"!')
+            return false
+        }else{
+            return true
+        }
     }
 
     const uploadUpdateFieldName = () => {
+        
         const newName = nameRef.current.value
-        if (newName.length <= 0) {
-            setHelperText('Please set the field name!')
+
+        if(!isFieldNameValid(newName)){
             return
         }
 
@@ -59,6 +82,23 @@ const EntityItem = ({ item, handleAction }) => {
 
                 </Tooltip>
                 <FlexBox sx={{ justifyContent: 'flex-start' }}>
+                    {/* <Select
+                        labelId="demo-simple-select-standard-label"
+                        id="demo-simple-select-standard"
+                        variant='standard'
+                        disabled={!editMode}
+                        sx={{width: '6rem'}}
+                        // value={age}
+                        // onChange={handleChange}
+                        label="Age"
+                    >
+                        <MenuItem value="">
+                            <em>None</em>
+                        </MenuItem>
+                        <MenuItem value={10}>Ten</MenuItem>
+                        <MenuItem value={20}>Twenty</MenuItem>
+                        <MenuItem value={30}>Thirty</MenuItem>
+                    </Select> */}
                     {editMode ?
                         <form onSubmit={handleSubmit}>
                             <TextField
@@ -82,10 +122,14 @@ const EntityItem = ({ item, handleAction }) => {
                             />
                         </form>
                         : <><Typography sx={{ padding: '0.5rem 0' }}>{item.fieldName}</Typography></>}
+
+
                 </FlexBox>
 
                 {/* Actions */}
                 <FlexBox sx={{ width: 'max-content' }}>
+
+
                     <i className={editMode ? 'fa fa-check' : 'fa fa-pencil'}
                         style={{ cursor: 'pointer' }}
                         onClick={() => {

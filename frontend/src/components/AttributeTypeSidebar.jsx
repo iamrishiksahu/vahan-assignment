@@ -6,21 +6,6 @@ import EntityIconContainer from './uiElements/EntityIconContainer';
 
 const AttributeTypeSidebar = ({ handleClick }) => {
 
-
-    const mysqlDataTypes = [
-        { name: 'INTEGER', description: 'Stores whole numbers without decimal points.' },
-        { name: 'DECIMAL', description: 'Stores fixed-point numbers with a specified precision and scale.' },
-        { name: 'FLOAT', description: 'Stores floating-point numbers with a specified precision.' },
-        { name: 'CHAR', description: 'Fixed-length character string with a specified length.' },
-        { name: 'VARCHAR', description: 'Variable-length character string with a maximum length.' },
-        { name: 'DATE', description: 'Stores date values in the format YYYY-MM-DD.' },
-        { name: 'TIME', description: 'Stores time values in the format HH:MM:SS.' },
-        { name: 'DATETIME', description: 'Stores date and time values in the format YYYY-MM-DD HH:MM:SS.' },
-        { name: 'BOOLEAN', description: 'Represents boolean values (true or false).' },
-        { name: 'BLOB', description: 'Binary Large Object, used to store large binary data such as images or documents.' }
-    ];
-
-
     return (
 
         <>

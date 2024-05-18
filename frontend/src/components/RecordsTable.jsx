@@ -220,9 +220,8 @@ function EnhancedTableToolbar(props) {
 }
 
 
-export default function RecordsTable() {
+export default function RecordsTable({name}) {
 
-    const name = 'Table Name'
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
   const [selected, setSelected] = React.useState([]);

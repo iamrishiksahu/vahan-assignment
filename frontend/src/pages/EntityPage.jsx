@@ -8,31 +8,19 @@ import EntityItem from '../components/entities/EntityItem'
 import { ENTITY_TYPES } from '../utils/EntityTypes'
 import { useNavigate, useParams } from 'react-router-dom'
 import RecordsTable from '../components/RecordsTable'
+import { axiosInstance } from '../../config/axiosConfig'
 
 const EntityPage = () => {
 
-  const { id } = useParams()
+  const { name } = useParams()
   const navigate = useNavigate()
 
   const [entityData, setEntityData] = useState(null)
   const [entityList, setEntityList] = useState([])
 
   useEffect(() => {
-    if (!id) {
+    if (!name) {
       navigate('/')
-    } else {
-
-      // Fetch Entity Data
-
-      setEntityData({
-        attributeList: [{
-          fieldName: 'sdf',
-          type: ENTITY_TYPES['BOOLEAN'],
-          id: 'sdf',
-          edit: true
-        }]
-      })
-
     }
   }, [])
 
@@ -41,35 +29,31 @@ const EntityPage = () => {
   }, [entityData])
 
 
-  const handleEntityAction = (action, entity) => {
-    let newList = entityList;
-    switch (action) {
-      case 'DELETE':
-        //delete entity
-        newList = newList.filter(item => item.id !== entity.id)
-        break
-      case 'TOGGLE_EDIT':
-        // Toggle edit parameter
-        newList[newList.findIndex(item => item.id === entity.id)] = entity
-        break
-      case 'UPDATE_TITLE':
-        //update title
-        newList[newList.findIndex(item => item.id === entity.id)] = entity
-        break
-    }
-    setEntityList(newList)
-  }
 
-  const handleEntitySideBarItemClick = (type) => {
-    const itemID = `user.list.${entityList.length}`
-    const newItem = {
-      fieldName: '',
-      type: ENTITY_TYPES[type],
-      id: itemID,
-      edit: true
-    }
 
-    setEntityList(list => [...list, newItem])
+
+
+
+
+  const deleteEntity = async () => {
+    if (confirm(`Are you sure to delete ${name} table?`)) {
+      try {
+        const res = await axiosInstance.delete('/delete-table', {data:{ data: name }})
+        if (res.status === 200) {
+          alert('Table deleted successfully!')
+          navigate('/')
+        }
+      } catch (err) {
+        console.log(err)
+        if(err?.response?.data === 'DropErrorMsgNonExistent'){
+          return alert('Table already deleted or does not exist anymore!')
+        }
+        alert('Oops! Something went wrong.')
+      }
+    } else {
+      console.log('Do not delete the table');
+
+    }
   }
 
   const handleSaveClick = () => {
@@ -116,7 +100,7 @@ const EntityPage = () => {
           gap: '1rem',
         }}>
 
-          <RecordsTable />
+          <RecordsTable name={name} />
           {/* <FlexBox sx={{ justifyContent: 'space-between', marginTop: '0.5rem'}}>
             <Typography variant='h3'>Entity Name</Typography>
             <Button variant='contained' onClick={handleSaveClick} >Save</Button>
@@ -153,8 +137,23 @@ const EntityPage = () => {
             <Typography>Name : <span style={{ color: '#adadad' }}>String</span></Typography>
             <Typography>Name : <span style={{ color: '#adadad' }}>String</span></Typography>
             <Typography>Name : <span style={{ color: '#adadad' }}>String</span></Typography>
-           
+
           </List>
+
+          <Button variant='outlined'
+            onClick={deleteEntity}
+            sx={{
+              color: 'red',
+              borderColor: 'red',
+              width: '100%',
+
+            }}>
+            <i style={{
+              color: 'red',
+            }} className='fa fa-trash-o' />
+            &emsp;
+            DELETE TABLE
+          </Button>
 
         </FlexBox>
 
