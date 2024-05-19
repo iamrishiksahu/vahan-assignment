@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
 //setting up all root routes
-require('./routes/root')(app);
+require('./routes/root.js')(app);
 
 //error handler
 app.use(errorHandler);
