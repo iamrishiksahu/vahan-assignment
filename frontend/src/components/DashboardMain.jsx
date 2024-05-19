@@ -47,7 +47,7 @@ const DashboardMain = () => {
                         href='https://github.com/iamrishiksahu/vahan-assignment'>GitHub Repo</Button>
                     <Button variant='outlined'
                         target='_blank'
-                        href=''>Video Demo</Button>
+                        href='https://drive.google.com/file/d/10TkWWxTH5egzuBfRN3V5zIc98h71TfTo/view'>Video Demo</Button>
                     <Button variant='outlined'
                         target='_blank'
                         href='https://linkedin.com/in/rishiksahubit'>LinkedIn</Button>
