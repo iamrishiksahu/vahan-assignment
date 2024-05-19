@@ -10,18 +10,19 @@ const DashboardMain = () => {
     const [createEntityOpen, setCreateEntityOpen] = useState(false)
     const [entityList, setEntityList] = useState([])
 
-    useEffect(() => {
-        const getAllTables = async () => {
-            try{
-                const res = await axiosInstance.get('/get-tables')
-                console.log(res.data)
-                setEntityList(res.data)
-            }catch(err){
-                console.log(err)
-                alert('Oops! Something went wrong!')
-            } 
+    const getAllTables = async () => {
+        try {
+            const res = await axiosInstance.get('/get-tables')
+            console.log(res.data)
+            setEntityList(res.data)
+        } catch (err) {
+            console.log(err)
+            alert('Oops! Something went wrong!')
         }
+    }
 
+
+    useEffect(() => {
         getAllTables()
     }, [])
 
@@ -51,7 +52,6 @@ const DashboardMain = () => {
             </FlexBox>
 
             <Typography variant='h6' color={'#444'}>Recent Entities</Typography>
-
 
             <GridBox cols={4} sx={{
                 width: '80vw',

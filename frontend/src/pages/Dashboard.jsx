@@ -14,16 +14,15 @@ const Dashboard = () => {
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'flex-start',
-      background: 'var(--bg-main)'
+      background: 'var(--bg-main)',
+      height: '100vh'
     }}>
       <Sidebar />
-
-
-        <Routes>
-          <Route index element={<DashboardMain />} />
-          <Route path='entity/:name' element={<EntityPage />} />
-          <Route path='edit-entity/:name' element={<EditEntity />} />
-        </Routes>
+      <Routes>
+        <Route index element={<DashboardMain />} />
+        <Route path='entity/:name' element={<EntityPage />} />
+        <Route path='edit-entity/:name' element={<EditEntity />} />
+      </Routes>
     </Box>
   )
 }

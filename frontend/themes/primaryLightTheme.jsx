@@ -31,6 +31,9 @@ export const primaryLightTheme = createTheme({
         h5: {
             fontSize: '1.25rem'
         },
+        body2:{
+            fontSize: '0.75rem'
+        },
         button: {
             textTransform: 'none',
         },

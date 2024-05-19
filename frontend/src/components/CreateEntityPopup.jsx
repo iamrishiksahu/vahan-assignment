@@ -23,12 +23,8 @@ const CreateEntityPopup = ({ handleClose }) => {
             return
         }
 
-
-       
         navigate(`/edit-entity/${tableName}`)
 
-        // save the table to DB
-        // saveTableToDB(newTable)
     }
 
     return (

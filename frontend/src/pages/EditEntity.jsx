@@ -12,6 +12,7 @@ import { axiosInstance } from '../../config/axiosConfig'
 const EditEntity = () => {
 
   const { name } = useParams()
+
   const tableNameRef = useRef()
   const navigate = useNavigate()
 
@@ -75,7 +76,7 @@ const EditEntity = () => {
         attributes: entityList
       })
 
-      if(res.status === 201){
+      if (res.status === 201) {
         alert('Table definition created successfully!')
         navigate('/')
       }
@@ -89,7 +90,6 @@ const EditEntity = () => {
       console.log(err)
     }
 
-    // Save the entityList to the database and create a new table definition
   }
 
   return (
@@ -121,7 +121,6 @@ const EditEntity = () => {
         }}>
           <FlexBox sx={{ justifyContent: 'space-between', marginTop: '0.5rem' }}>
             <TextField
-              // sx={{ backgroundColor: 'white' }}
               variant='standard'
               size='small'
               defaultValue={name}
@@ -131,7 +130,7 @@ const EditEntity = () => {
           </FlexBox>
 
 
-          {entityList.map((item, idx) => {
+          {entityList.length > 0 ? entityList.map((item, idx) => {
             return (
               <EntityItem
                 key={idx}
@@ -139,7 +138,15 @@ const EditEntity = () => {
                 item={item}
               />
             )
-          })}
+          }) : <FlexBox column sx={{
+            backgroundColor: 'white',
+            height: '10rem',
+            borderRadius: '0.5rem'
+          }}>
+
+            <Typography align='center' width={'100%'}>You are just one step away!</Typography>
+            <Typography align='center' variant='body2' width={'100%'} color={'#444'}>Add Attributes to the Entity from the right sidebar!</Typography>
+          </FlexBox>}
 
 
         </Box>

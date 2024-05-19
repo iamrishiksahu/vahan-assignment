@@ -10,10 +10,8 @@ const EntityPage = () => {
   const { name } = useParams()
   const navigate = useNavigate()
 
-  // const [entityData, setEntityData] = useState(null)
   const [tableData, setTableData] = useState(null)
   const [columns, setColumns] = useState(null)
-  const [entityList, setEntityList] = useState([])
 
   const getTableDataWithRecords = async (tableName) => {
 
@@ -41,13 +39,10 @@ const EntityPage = () => {
   }, [])
 
   useEffect(() => {
-
     if (tableData?.metaData?.attributes) {
       const attributes = JSON.parse(tableData.metaData.attributes)
       setColumns(attributes)
-
     }
-
   }, [tableData])
 
 
@@ -67,26 +62,10 @@ const EntityPage = () => {
         }
         alert('Oops! Something went wrong.')
       }
-    } else {
-      console.log('Do not delete the table');
-
     }
   }
 
-  const handleSaveClick = () => {
 
-    // check if any field is in edit mode
-
-    for (let i = 0; i < entityList.length; i++) {
-
-      if (entityList[i].edit == true) {
-        alert('Please save all field names!')
-        break
-      }
-    }
-
-    // Save the entityList to the database and create a new table definition
-  }
 
   return (
     <PageParent sx={{
@@ -122,7 +101,8 @@ const EntityPage = () => {
               name={name}
               data={tableData}
               fetchRecords={getTableDataWithRecords} />
-            : <></>}
+            
+              : <></>}
 
         </Box>
 
@@ -142,7 +122,6 @@ const EntityPage = () => {
 
               <Typography key={idx} padding={'0.25rem 0'}>
                 {item.fieldName}: &emsp;
-                {/* <span style={{ color: '#adadad' }}>{item.type.name}</span> • */}
                 <span style={{ color: '#adadad' }}>{item.type.dataType}</span>
               </Typography>
             )) : <></>}
