@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Typography } from '@mui/material'
+import { Button, CircularProgress, Typography } from '@mui/material'
 import { FlexBox, GridBox, PageParent } from './uiElements/AllContainers'
 import CreateEntityPopup from './CreateEntityPopup'
 import EntityItem from './entities/EntityItem'
@@ -9,6 +9,7 @@ import { axiosInstance } from '../../config/axiosConfig'
 const DashboardMain = () => {
     const [createEntityOpen, setCreateEntityOpen] = useState(false)
     const [entityList, setEntityList] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
 
     const getAllTables = async () => {
         try {
@@ -18,6 +19,8 @@ const DashboardMain = () => {
         } catch (err) {
             console.log(err)
             alert('Oops! Something went wrong!')
+        }finally{
+            setIsLoading(false)
         }
     }
 
@@ -69,7 +72,7 @@ const DashboardMain = () => {
                     <i className='fa fa-plus' style={{ color: 'var(--color-primary)' }} />
                     <Typography color={'primary'}>Create New Entity</Typography>
                 </PageParent>
-                {entityList.map((item, idx) => {
+                {isLoading? <CircularProgress /> : entityList.reverse().map((item, idx) => {
                     return (
                         <EntityCard key={idx} entity={item} />
                     )

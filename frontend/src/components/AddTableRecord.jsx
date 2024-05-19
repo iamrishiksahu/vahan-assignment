@@ -1,13 +1,9 @@
-import { Button, Switch, TableCell, TableRow, TextField } from '@mui/material'
+import { Box, Button, Switch, TableCell, TableRow, TextField } from '@mui/material'
 import React from 'react'
 import { axiosInstance } from '../../config/axiosConfig'
 import { FlexBox } from './uiElements/AllContainers'
 
 const AddTableRecord = ({ columns, data, editMode, handleDone }) => {
-
-    if (editMode) {
-        //pre popuplate
-    }
 
     const handleFormSubmit = async (e) => {
         e.preventDefault()
@@ -86,14 +82,15 @@ const AddTableRecord = ({ columns, data, editMode, handleDone }) => {
 
     }
     return (
-        <form onSubmit={handleFormSubmit}>
-            <TableRow>
+        <form onSubmit={handleFormSubmit} style={{width: 'auto'}}>
+            <TableRow sx={{display: 'flex', padding: '0.25rem', position: 'relative'}}>
                 {columns.map((col, idx) => (
                     <TableCell
                         key={col.id}
                         sx={{
                             fontWeight: 600,
-                            color: '#444'
+                            color: '#444',
+                            border: 'none'
                         }}
                         style={{
                             padding: '0.25rem'
@@ -114,7 +111,7 @@ const AddTableRecord = ({ columns, data, editMode, handleDone }) => {
                         }
                     </TableCell>
                 ))}
-                <TableCell align='center' sx={{ width: '100px' }}>
+                <TableCell align='center' sx={{ width: '100px', position: 'absolute', right: '0rem', border: 'none' }}>
                     <FlexBox>
                         <Button type='submit'>
                             <i className={'fa fa-check'}

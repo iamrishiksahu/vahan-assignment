@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Sidebar from '../components/Sidebar'
-import { Box, Button, TextField, Typography } from '@mui/material'
+import { Box, Button, CircularProgress, TextField, Typography } from '@mui/material'
 import { FlexBox, PageParent } from '../components/uiElements/AllContainers'
 import AttributeTypeSidebar from '../components/AttributeTypeSidebar'
 import TextEntity from '../components/entities/EntityItem'
@@ -17,6 +17,7 @@ const EditEntity = () => {
   const navigate = useNavigate()
 
   const [entityList, setEntityList] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     if (!name) {
@@ -60,6 +61,10 @@ const EditEntity = () => {
 
     // check if any field is in edit mode
 
+    if(entityList.length === 0){
+      return alert('Please add attributes!')
+    }
+
     for (let i = 0; i < entityList.length; i++) {
       if (entityList[i].edit == true) {
         alert('Please save all field names!')
@@ -68,6 +73,7 @@ const EditEntity = () => {
     }
 
     try {
+      setIsLoading(true)
 
       const res = await axiosInstance.post('/create-table', {
         table: tableNameRef.current.value,
@@ -88,6 +94,8 @@ const EditEntity = () => {
       }
       alert('Oops! Something went wrong.')
       console.log(err)
+    } finally {
+      setIsLoading(false)
     }
 
   }
@@ -125,7 +133,9 @@ const EditEntity = () => {
               size='small'
               defaultValue={name}
               inputRef={tableNameRef} />
-            <Button variant='contained' onClick={handleSaveClick} >Save</Button>
+            <Button variant='contained' onClick={handleSaveClick} >
+              {isLoading ? <CircularProgress sx={{ color: 'white' }} size={'1.5rem'} /> : "Save"}
+            </Button>
 
           </FlexBox>
 

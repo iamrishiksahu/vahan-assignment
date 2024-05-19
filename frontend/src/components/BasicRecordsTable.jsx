@@ -50,7 +50,8 @@ export default function BasicRecordsTable({ name, data, fetchRecords }) {
             <FlexBox sx={{
                 justifyContent: 'space-between',
                 padding: '1rem 1rem',
-                backgroundColor: 'white'
+                backgroundColor: 'white',
+                borderRadius: '0.25rem',
             }}>
                 <Typography variant='h4' textAlign={'left'}>{name}</Typography>
                 <Button variant='contained'
@@ -104,7 +105,7 @@ export default function BasicRecordsTable({ name, data, fetchRecords }) {
                     <TableBody>
 
 
-                        {records.length > 0 ? records.map((row, idx) => (
+                        {records.length > 0 ? records.reverse().map((row, idx) => (
                             <TableRow
                                 key={idx}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -118,7 +119,7 @@ export default function BasicRecordsTable({ name, data, fetchRecords }) {
                                             val === true ? 'True' : 'False'
                                             : col.type.dataType === 'DATE' ?
                                                 val.slice(0, 10)
-                                                : col.type.inputType === 'PASSWORD' ? '***' : val}</TableCell>
+                                                : col.type.name === 'PASSWORD' ? '***' : val}</TableCell>
                                     )
                                 })}
                                 {/* Actions */}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Button, List, Typography } from '@mui/material'
+import { Box, Button, CircularProgress, LinearProgress, List, Typography } from '@mui/material'
 import { FlexBox, PageParent } from '../components/uiElements/AllContainers'
 import { useNavigate, useParams } from 'react-router-dom'
 import { axiosInstance } from '../../config/axiosConfig'
@@ -12,11 +12,12 @@ const EntityPage = () => {
 
   const [tableData, setTableData] = useState(null)
   const [columns, setColumns] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   const getTableDataWithRecords = async (tableName) => {
 
     try {
-
+      setIsLoading(true)
       const res = await axiosInstance.get(`/get-table-data/${tableName}`)
 
       console.log(res.data.records)
@@ -26,6 +27,8 @@ const EntityPage = () => {
       console.log(err)
       alert('Oops! Something went wong loading the table data.')
       navigate('/')
+    } finally {
+      setIsLoading('false')
     }
 
   }
@@ -101,8 +104,8 @@ const EntityPage = () => {
               name={name}
               data={tableData}
               fetchRecords={getTableDataWithRecords} />
-            
-              : <></>}
+
+            : <><LinearProgress /></>}
 
         </Box>
 
@@ -118,13 +121,13 @@ const EntityPage = () => {
           <Typography variant='h6'>Table Definition</Typography>
 
           <List>
-            {columns ? columns.map((item, idx) => (
+            {columns? columns.map((item, idx) => (
 
               <Typography key={idx} padding={'0.25rem 0'}>
                 {item.fieldName}: &emsp;
                 <span style={{ color: '#adadad' }}>{item.type.dataType}</span>
               </Typography>
-            )) : <></>}
+            )) :<><CircularProgress size={'1.5rem'}/></>}
 
           </List>
 
