@@ -8,7 +8,7 @@ const cors = require('cors');
 const PORT =  process.env.PORT|| 4000;
 
 // setting up cors
-app.use(cors());
+app.use(cors(corsOption));
 
 app.use(cors(corsOption));
 
