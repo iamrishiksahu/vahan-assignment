@@ -1,52 +1,67 @@
 import React, { useEffect, useState } from 'react'
-import Sidebar from '../components/Sidebar'
 import { Box, Button, List, Typography } from '@mui/material'
 import { FlexBox, PageParent } from '../components/uiElements/AllContainers'
-import AttributeTypeSidebar from '../components/AttributeTypeSidebar'
-import TextEntity from '../components/entities/EntityItem'
-import EntityItem from '../components/entities/EntityItem'
-import { ENTITY_TYPES } from '../utils/EntityTypes'
 import { useNavigate, useParams } from 'react-router-dom'
-import RecordsTable from '../components/RecordsTable'
 import { axiosInstance } from '../../config/axiosConfig'
+import BasicRecordsTable from '../components/BasicRecordsTable'
 
 const EntityPage = () => {
 
   const { name } = useParams()
   const navigate = useNavigate()
 
-  const [entityData, setEntityData] = useState(null)
+  // const [entityData, setEntityData] = useState(null)
+  const [tableData, setTableData] = useState(null)
+  const [columns, setColumns] = useState(null)
   const [entityList, setEntityList] = useState([])
+
+  const getTableDataWithRecords = async (tableName) => {
+
+    try {
+
+      const res = await axiosInstance.get(`/get-table-data/${tableName}`)
+      setTableData(res.data)
+
+    } catch (err) {
+      console.log(err)
+      alert('Oops! Something went wong loading the table data.')
+      navigate('/')
+    }
+
+  }
 
   useEffect(() => {
     if (!name) {
       navigate('/')
+    } else {
+      getTableDataWithRecords(name)
     }
   }, [])
 
   useEffect(() => {
-    setEntityList(entityData?.attributeList || [])
-  }, [entityData])
 
+    if (tableData?.metaData?.attributes) {
+      const attributes = JSON.parse(tableData.metaData.attributes)
+      setColumns(attributes)
 
+    }
 
-
-
-
+  }, [tableData])
 
 
   const deleteEntity = async () => {
     if (confirm(`Are you sure to delete ${name} table?`)) {
       try {
-        const res = await axiosInstance.delete('/delete-table', {data:{ data: name }})
+        const res = await axiosInstance.delete('/delete-table', { data: { data: name } })
         if (res.status === 200) {
           alert('Table deleted successfully!')
           navigate('/')
         }
       } catch (err) {
         console.log(err)
-        if(err?.response?.data === 'DropErrorMsgNonExistent'){
-          return alert('Table already deleted or does not exist anymore!')
+        if (err?.response?.data === 'DropErrorMsgNonExistent') {
+          alert('Table already deleted or does not exist anymore!')
+          return navigate('/')
         }
         alert('Oops! Something went wrong.')
       }
@@ -100,24 +115,12 @@ const EntityPage = () => {
           gap: '1rem',
         }}>
 
-          <RecordsTable name={name} />
-          {/* <FlexBox sx={{ justifyContent: 'space-between', marginTop: '0.5rem'}}>
-            <Typography variant='h3'>Entity Name</Typography>
-            <Button variant='contained' onClick={handleSaveClick} >Save</Button>
-
-          </FlexBox>
-
-
-          {entityList.map((item, idx) => {
-            return (
-              <EntityItem
-                key={idx}
-                handleAction={handleEntityAction}
-                item={item}
-              />
-            )
-          })} */}
-
+          {tableData !== null ?
+            <BasicRecordsTable
+              name={name}
+              data={tableData}
+              fetchRecords={getTableDataWithRecords} />
+            : <></>}
 
         </Box>
 
@@ -132,11 +135,10 @@ const EntityPage = () => {
           <Typography variant='h6'>Table Definition</Typography>
 
           <List>
+            {columns ? columns.map((item, idx) => (
 
-            <Typography>Name : <span style={{ color: '#adadad' }}>String</span></Typography>
-            <Typography>Name : <span style={{ color: '#adadad' }}>String</span></Typography>
-            <Typography>Name : <span style={{ color: '#adadad' }}>String</span></Typography>
-            <Typography>Name : <span style={{ color: '#adadad' }}>String</span></Typography>
+              <Typography key={idx}>{item.fieldName} : <span style={{ color: '#adadad' }}>{item.type.dataType}</span></Typography>
+            )) : <></>}
 
           </List>
 

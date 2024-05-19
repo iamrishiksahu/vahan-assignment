@@ -40,7 +40,7 @@ router.post('/create-table', async (req, res) => {
     }).join(',')
 
     try {
-        const qs = `CREATE TABLE "${table}" (${attrString});`
+        const qs = `CREATE TABLE "${table}" (id SERIAL PRIMARY KEY, ${attrString});`
         const ans = await client.query(qs)
         // res.status(201).send('Table created successfully!')
     } catch (err) {
@@ -77,15 +77,25 @@ router.delete('/delete-table', async (req, res) => {
     if (!data) {
         return res.status(400).send('Table Name (data) is required')
     }
+
     const qs = `DROP TABLE "${data}"`
+    const qs2 = `DELETE FROM entities WHERE tablename='${data}'`
 
     try {
         const ans = await client.query(qs)
-        console.log(ans)
+        const ans2 = await client.query(qs2)
+        console.log(ans, "second: ", ans2)
         return res.status(200).send('Deleted!')
     } catch (err) {
         console.log(err)
         if (err?.code === '42P01') {
+            try {
+                const qs2 = `DELETE FROM entities WHERE tablename='${data}'`
+                const ans2 = await client.query(qs2)
+                console.log("deleting just the record: ", ans2)
+            } catch (err) {
+                console.log(err)
+            }
             return res.status(404).send('DropErrorMsgNonExistent')
         }
         return res.status(500).send(err)
@@ -94,17 +104,40 @@ router.delete('/delete-table', async (req, res) => {
 
 router.get('/get-tables', async (req, res) => {
 
-    try{
+    try {
         const qs = `SELECT * FROM entities;`
         const ans = await client.query(qs)
 
         console.log(ans.rows)
         return res.status(200).json(ans.rows)
-    }catch(err){
+    } catch (err) {
         console.log(err)
         return res.status(500).json(err)
     }
 })
+router.get('/get-table-data/:tableName', async (req, res) => {
+
+    const { tableName } = req.params
+
+    try {
+        const qs = `SELECT * FROM "${tableName}";`
+        const qs2 = `SELECT * FROM entities WHERE tablename='${tableName}';`
+        const ans = await client.query(qs)
+        const ans2 = await client.query(qs2)
+
+        const data = { records: ans.rows, metaData: ans2.rows[0] }
+
+        console.log(data)
+        return res.status(200).json(data)
+    } catch (err) {
+        if (err?.code === '42P01') {
+            return res.status(404).send('TableNotFound')
+        }
+        console.log(err)
+        return res.status(500).json(err)
+    }
+})
+
 
 router.post('/test', async (req, res) => {
 
@@ -123,11 +156,12 @@ router.post('/test', async (req, res) => {
     WHERE
         table_name = 'entities';`
 
-
+    const deleteItem = `DELETE FROM entities WHERE tablename='Table no '`
+    const droptable = `DROP TABLE "Table no "`
 
     try {
-        const ans = await client.query(qsss)
-        console.log(ans.rows)
+        const ans = await client.query(getAllTables)
+        console.log(ans)
         return res.status(200).json(ans.rows)
     } catch (err) {
         console.log(err)
@@ -137,29 +171,54 @@ router.post('/test', async (req, res) => {
 
 })
 
-router.post('/add-entity', (req, res) => {
-
-    const query = "INERT INTO ENTITIES ()"
-    console.log(req.body)
-    return res.status(200).send('inserted into entity')
-})
 
 
 
-
-router.post('/insert-record', (req, res) => {
+router.post('/insert-record', async (req, res) => {
     // Need record details and table name
-    const { tableName, record } = req.body
-    const query = `INSERT INTO ${tableName} `
-    return res.status(200).send('api')
+    const { tableName, values, columns } = req.body
+    const qs = `INSERT INTO "${tableName}" (${columns}) VALUES (${values});`
+
+    try {
+        const ans = await client.query(qs)
+        console.log(ans.rows)
+        return res.status(201).json(ans.rows)
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json(err)
+    }
+
+
 })
-router.put('/update-record', (req, res) => {
+router.put('/update-record', async (req, res) => {
     // Need record details and table name
-    return res.status(200).send('api')
+
+    const { tableName, valueString, id} = req.body
+    const qs = `UPDATE "${tableName}" SET ${valueString} WHERE id=${id};`
+
+    try {
+        const ans = await client.query(qs)
+        console.log(ans.rows)
+        return res.status(201).json(ans.rows)
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json(err)
+    }
+   
 })
-router.delete('/delete-record', (req, res) => {
+router.delete('/delete-record', async (req, res) => {
     // Need record details and table name
-    return res.status(200).send('api')
+    const { tableName, id } = req.body
+    const qs = `DELETE FROM "${tableName}" WHERE id=${id};`
+
+    try {
+        const ans = await client.query(qs)
+        console.log(ans.rows)
+        return res.status(201).json(ans.rows)
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json(err)
+    }
 })
 router.get('/get-all-records', (req, res) => {
     // Need table name
