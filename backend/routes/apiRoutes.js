@@ -3,29 +3,6 @@ const router = express.Router()
 const client = require('../db/dbConfig');
 
 
-// SAMPLE RESPONSE
-// Result {
-//     command: 'SELECT',
-//     rowCount: 3,
-//     oid: null,
-//     rows: [
-//       { brand: 'Volvo', model: 'p1800', year: 1968 },
-//       { brand: 'BMW', model: 'M1', year: 1978 },
-//       { brand: 'Toyota', model: 'Celica', year: 1975 }
-//     ],
-//     fields: [
-//       Field {
-//         name: 'brand',
-//         tableID: 16399,
-//         columnID: 1,
-//         dataTypeID: 1043,
-//         dataTypeSize: -1,
-//         dataTypeModifier: 259,
-//         format: 'text'
-//       }
-//     ],
-//   }
-
 router.post('/create-table', async (req, res) => {
 
     const { table, attributes } = req.body
@@ -42,7 +19,6 @@ router.post('/create-table', async (req, res) => {
     try {
         const qs = `CREATE TABLE "${table}" (id SERIAL PRIMARY KEY, ${attrString});`
         const ans = await client.query(qs)
-        // res.status(201).send('Table created successfully!')
     } catch (err) {
         console.log(err)
         if (err.code === '42P07') {
@@ -141,28 +117,28 @@ router.get('/get-table-data/:tableName', async (req, res) => {
 
 router.post('/test', async (req, res) => {
 
-    const getAllTables = `SELECT *
-    FROM pg_catalog.pg_tables
-    WHERE schemaname != 'pg_catalog' AND 
-        schemaname != 'information_schema';`
+    // const getAllTables = `SELECT *
+    // FROM pg_catalog.pg_tables
+    // WHERE schemaname != 'pg_catalog' AND 
+    //     schemaname != 'information_schema';`
 
-    const qs = `ALTER TABLE entities ALTER COLUMN attributes TYPE TEXT`
-    const qsss = `SELECT * FROM ENTITIES`
-    const qss = `SELECT
-        column_name,
-        data_type
-    FROM
-        information_schema.columns
-    WHERE
-        table_name = 'entities';`
+    // const qs = `ALTER TABLE entities ALTER COLUMN attributes TYPE TEXT`
+    // const qsss = `SELECT * FROM ENTITIES`
+    // const qss = `SELECT
+    //     column_name,
+    //     data_type
+    // FROM
+    //     information_schema.columns
+    // WHERE
+    //     table_name = 'entities';`
 
-    const deleteItem = `DELETE FROM entities WHERE tablename='Table no '`
+    // const deleteItem = `DELETE FROM entities WHERE tablename='Table no '`
     const droptable = `DROP TABLE "Table no "`
 
     try {
-        const ans = await client.query(getAllTables)
-        console.log(ans)
-        return res.status(200).json(ans.rows)
+        // const ans = await client.query(getAllTables)
+        // console.log(ans)
+        return res.status(200).json('test working!')
     } catch (err) {
         console.log(err)
 
@@ -175,8 +151,8 @@ router.post('/test', async (req, res) => {
 
 
 router.post('/insert-record', async (req, res) => {
-    // Need record details and table name
-    const { tableName, values, columns } = req.body
+    const { tableName, values, columns } = req.
+
     const qs = `INSERT INTO "${tableName}" (${columns}) VALUES (${values});`
 
     try {
@@ -191,9 +167,7 @@ router.post('/insert-record', async (req, res) => {
 
 })
 router.put('/update-record', async (req, res) => {
-    // Need record details and table name
-
-    const { tableName, valueString, id} = req.body
+    const { tableName, valueString, id } = req.body
     const qs = `UPDATE "${tableName}" SET ${valueString} WHERE id=${id};`
 
     try {
@@ -205,7 +179,7 @@ router.put('/update-record', async (req, res) => {
         console.log(err?.stack)
         return res.status(500).json(err?.stack)
     }
-   
+
 })
 router.delete('/delete-record', async (req, res) => {
     // Need record details and table name
@@ -223,8 +197,27 @@ router.delete('/delete-record', async (req, res) => {
 })
 
 
-
-
-
-
 module.exports = router
+
+// SAMPLE API RESPONSE on client.query() success
+// Result {
+//     command: 'SELECT',
+//     rowCount: 3,
+//     oid: null,
+//     rows: [
+//       { brand: 'Volvo', model: 'p1800', year: 1968 },
+//       { brand: 'BMW', model: 'M1', year: 1978 },
+//       { brand: 'Toyota', model: 'Celica', year: 1975 }
+//     ],
+//     fields: [
+//       Field {
+//         name: 'brand',
+//         tableID: 16399,
+//         columnID: 1,
+//         dataTypeID: 1043,
+//         dataTypeSize: -1,
+//         dataTypeModifier: 259,
+//         format: 'text'
+//       }
+//     ],
+//   }
