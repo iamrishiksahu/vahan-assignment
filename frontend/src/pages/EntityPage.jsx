@@ -20,6 +20,8 @@ const EntityPage = () => {
     try {
 
       const res = await axiosInstance.get(`/get-table-data/${tableName}`)
+
+      console.log(res.data.records)
       setTableData(res.data)
 
     } catch (err) {
@@ -125,7 +127,8 @@ const EntityPage = () => {
         </Box>
 
         <FlexBox column sx={{
-          padding: '1rem',
+          padding: '2rem',
+          borderRadius: '0.25rem',
           alignItems: 'flex-start',
           width: 'max-content',
           backgroundColor: 'white',
@@ -137,7 +140,11 @@ const EntityPage = () => {
           <List>
             {columns ? columns.map((item, idx) => (
 
-              <Typography key={idx}>{item.fieldName} : <span style={{ color: '#adadad' }}>{item.type.dataType}</span></Typography>
+              <Typography key={idx} padding={'0.25rem 0'}>
+                {item.fieldName}: &emsp;
+                {/* <span style={{ color: '#adadad' }}>{item.type.name}</span> • */}
+                <span style={{ color: '#adadad' }}>{item.type.dataType}</span>
+              </Typography>
             )) : <></>}
 
           </List>

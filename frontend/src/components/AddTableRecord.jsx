@@ -1,4 +1,4 @@
-import { Button, TableCell, TableRow, TextField } from '@mui/material'
+import { Button, Switch, TableCell, TableRow, TextField } from '@mui/material'
 import React from 'react'
 import { axiosInstance } from '../../config/axiosConfig'
 import { FlexBox } from './uiElements/AllContainers'
@@ -15,12 +15,16 @@ const AddTableRecord = ({ columns, data, editMode, handleDone }) => {
         if (editMode) {
 
             const valueString = columns.map((col) => {
-                if (col.type.dataType === 'TEXT' || col.type.dataType === 'CHAR') {
+                if (col.type.dataType === 'TEXT' || col.type.dataType === 'CHAR(1)' || col.type.dataType === 'TIME' || col.type.dataType === 'DATE') {
                     return `${col.fieldName} = '${e.target[col.fieldName].value}'`
+                } else if (col.type.dataType === 'BOOLEAN') {
+                    return `${col.fieldName} = '${e.target[col.fieldName].checked}'`
                 } else {
                     return `${col.fieldName} = ${e.target[col.fieldName].value}`
                 }
             }).join(', ')
+
+            console.log(valueString)
             console.log(editMode)
 
             try {
@@ -33,14 +37,22 @@ const AddTableRecord = ({ columns, data, editMode, handleDone }) => {
 
             } catch (err) {
                 console.log(err)
-                alert('Oops! Something went wrong.')
+
+                if(err?.response?.data){
+                    alert(err.response.data.split("\n")[0])
+                }else{
+                    alert('Oops! Something went wrong.')
+
+                }
             }
 
         } else {
 
             const values = columns.map((col) => {
-                if (col.type.dataType === 'TEXT' || col.type.dataType === 'CHAR') {
+                if (col.type.dataType === 'TEXT' || col.type.dataType === 'CHAR(1)' || col.type.dataType === 'TIME' || col.type.dataType === 'DATE') {
                     return `'${e.target[col.fieldName].value}'`
+                } else if (col.type.dataType === 'BOOLEAN') {
+                    return e.target[col.fieldName].checked
                 } else {
                     return e.target[col.fieldName].value
                 }
@@ -62,7 +74,12 @@ const AddTableRecord = ({ columns, data, editMode, handleDone }) => {
 
             } catch (err) {
                 console.log(err)
-                alert('Oops! Something went wrong.')
+                if(err?.response?.data){
+                    alert(err.response.data.split("\n")[0])
+                }else{
+                    alert('Oops! Something went wrong.')
+
+                }
             }
         }
 
@@ -78,20 +95,27 @@ const AddTableRecord = ({ columns, data, editMode, handleDone }) => {
                             fontWeight: 600,
                             color: '#444'
                         }}
-                    ><TextField
+                        style={{
+                            padding: '0.25rem'
+                        }}
+
+                    >{col.type.dataType === 'BOOLEAN' ?
+
+                        <Switch name={col.fieldName} />
+                        :
+                        <TextField
+                            type={col.type.inputType}
                             defaultValue={editMode ? editMode[col.fieldName] : ''}
                             size='small'
                             name={col.fieldName}
                             placeholder={col.fieldName}
                             label={col.fieldName}
                         />
+                        }
                     </TableCell>
                 ))}
-
-
                 <TableCell align='center' sx={{ width: '100px' }}>
                     <FlexBox>
-
                         <Button type='submit'>
                             <i className={'fa fa-check'}
                                 style={{ cursor: 'pointer' }}

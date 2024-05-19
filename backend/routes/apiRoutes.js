@@ -185,7 +185,7 @@ router.post('/insert-record', async (req, res) => {
         return res.status(201).json(ans.rows)
     } catch (err) {
         console.log(err)
-        return res.status(500).json(err)
+        return res.status(500).json(err?.stack)
     }
 
 
@@ -201,8 +201,9 @@ router.put('/update-record', async (req, res) => {
         console.log(ans.rows)
         return res.status(201).json(ans.rows)
     } catch (err) {
-        console.log(err)
-        return res.status(500).json(err)
+        // console.log(err)
+        console.log(err?.stack)
+        return res.status(500).json(err?.stack)
     }
    
 })
@@ -219,10 +220,6 @@ router.delete('/delete-record', async (req, res) => {
         console.log(err)
         return res.status(500).json(err)
     }
-})
-router.get('/get-all-records', (req, res) => {
-    // Need table name
-    return res.status(200).send('api')
 })
 
 

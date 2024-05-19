@@ -82,6 +82,7 @@ export default function BasicRecordsTable({ name, data, fetchRecords }) {
                                 <TableCell
                                     key={item.id}
                                     sx={{
+                                        // minWidth: '200px',
                                         fontWeight: 600,
                                         color: '#444'
                                     }}
@@ -108,12 +109,18 @@ export default function BasicRecordsTable({ name, data, fetchRecords }) {
                                 key={idx}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
-                                {columns.map((col, idx) => (
-                                    <TableCell
-                                        key={idx}
-
-                                    >{row[col.fieldName]}</TableCell>
-                                ))}
+                                {columns.map((col, idx) => {
+                                    const val = row[col.fieldName.toLowerCase()]
+                                    return (
+                                        <TableCell
+                                            key={idx}
+                                        >{col.type.dataType === 'BOOLEAN' ?
+                                            val === true ? 'True' : 'False'
+                                            : col.type.dataType === 'DATE' ?
+                                                val.slice(0, 10)
+                                                : val}</TableCell>
+                                    )
+                                })}
                                 {/* Actions */}
                                 <TableCell>
                                     <FlexBox sx={{ width: 'max-content' }}>

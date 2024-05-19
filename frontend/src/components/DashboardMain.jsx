@@ -8,39 +8,7 @@ import { axiosInstance } from '../../config/axiosConfig'
 
 const DashboardMain = () => {
     const [createEntityOpen, setCreateEntityOpen] = useState(false)
-    const [entityList, setEntityList] = useState([
-        {
-            tablename: 'Students',
-            description: 'Table for storing student data.',
-            id: 1,
-            createdAt: '',
-            updatedAt: ''
-        }, {
-            tablename: 'Students',
-            description: 'Table for storing student data.',
-            id: 1,
-            createdAt: '',
-            updatedAt: ''
-        }, {
-            tablename: 'Students',
-            description: 'Table for storing student data.',
-            id: 1,
-            createdAt: '',
-            updatedAt: ''
-        }, {
-            tablename: 'Students',
-            description: 'Table for storing student data.',
-            id: 1,
-            createdAt: '',
-            updatedAt: ''
-        }, {
-            tablename: 'Students',
-            description: 'Table for storing student data.',
-            id: 1,
-            createdAt: '',
-            updatedAt: ''
-        },
-    ])
+    const [entityList, setEntityList] = useState([])
 
     useEffect(() => {
         const getAllTables = async () => {

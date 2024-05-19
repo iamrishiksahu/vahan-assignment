@@ -1,6 +1,7 @@
 export const ENTITY_TYPES = Object.freeze({
     TEXT: {
         name: "TEXT",
+        inputType: 'text',
         icon: "fa fa-text-width",
         dataType: "TEXT",
         description: "",
@@ -9,6 +10,7 @@ export const ENTITY_TYPES = Object.freeze({
     },
     CHARACTER: {
         name: "CHARACTER",
+        inputType: 'text',
         icon: "fa fa-font",
         dataType: "CHAR(1)",
         description: "",
@@ -18,6 +20,7 @@ export const ENTITY_TYPES = Object.freeze({
     },
     BOOLEAN: {
         name: "BOOLEAN",
+        inputType: 'bool',
         icon: "fa fa-toggle-off",
         dataType: "BOOLEAN",
         description: "",
@@ -27,6 +30,7 @@ export const ENTITY_TYPES = Object.freeze({
     },
     EMAIL: {
         name: "EMAIL",
+        inputType: 'email',
         icon: "fa fa-envelope-o",
         dataType: "TEXT",
         description: "",
@@ -35,7 +39,8 @@ export const ENTITY_TYPES = Object.freeze({
         
     },
     INTEGER: {
-        name: "INTEGER",
+        name: "INTEGER",   
+        inputType: 'number',     
         icon: "fa fa-sort-numeric-asc",
         dataType: "INT",
         description: "",
@@ -45,6 +50,7 @@ export const ENTITY_TYPES = Object.freeze({
     },
     DECIMAL: {
         name: "DECIMAL",
+        inputType: 'number',
         icon: "fa fa-text-width",
         dataType: "FLOAT(4)",
         description: "",
@@ -54,6 +60,7 @@ export const ENTITY_TYPES = Object.freeze({
     },
     DATE: {
         name: "DATE",
+        inputType: 'date',
         icon: "fa fa-calendar",
         dataType: "DATE",
         description: "",
@@ -63,6 +70,7 @@ export const ENTITY_TYPES = Object.freeze({
     },
     TIME: {
         name: "TIME",
+        inputType: 'time',
         icon: "fa fa-clock-o",
         dataType: "TIME",
         description: "",
@@ -71,6 +79,7 @@ export const ENTITY_TYPES = Object.freeze({
     },
     PASSWORD: {
         name: "PASSWORD",
+        inputType: 'password',
         icon: "fa fa-unlock-alt",
         dataType: "TEXT",
         description: "",
