@@ -102,7 +102,7 @@ const AddTableRecord = ({ columns, data, editMode, handleDone }) => {
                         :
                         <TextField
                             type={col.type.inputType}
-                            defaultValue={editMode ? editMode[col.fieldName] : ''}
+                            defaultValue={editMode ? editMode[col.fieldName.toLowerCase()] : ''}
                             size='small'
                             name={col.fieldName}
                             placeholder={col.fieldName}

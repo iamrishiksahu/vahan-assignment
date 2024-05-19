@@ -128,7 +128,6 @@ export default function BasicRecordsTable({ name, data, fetchRecords }) {
                                             style={{ cursor: 'pointer' }}
                                             onClick={() => {
                                                 if (editMode) {
-
                                                 } else {
                                                     setEditMode(row)
                                                 }
