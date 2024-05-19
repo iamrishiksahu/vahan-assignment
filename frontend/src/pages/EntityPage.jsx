@@ -123,9 +123,8 @@ const EntityPage = () => {
           <List>
             {columns? columns.map((item, idx) => (
 
-              <Typography key={idx} padding={'0.25rem 0'}>
-                {item.fieldName}: &emsp;
-                <span style={{ color: '#adadad' }}>{item.type.dataType}</span>
+              <Typography key={idx}  padding={'0.25rem 0'}>
+                {item.fieldName}: <span style={{ color: '#adadad', fontSize: '0.8rem' }}>{item.type.dataType}</span>
               </Typography>
             )) :<><CircularProgress size={'1.5rem'}/></>}
 

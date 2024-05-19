@@ -104,8 +104,7 @@ export default function BasicRecordsTable({ name, data, fetchRecords }) {
 
                     <TableBody>
 
-
-                        {records.length > 0 ? records.reverse().map((row, idx) => (
+                        {records.reverse().map((row, idx) => (
                             <TableRow
                                 key={idx}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -144,18 +143,20 @@ export default function BasicRecordsTable({ name, data, fetchRecords }) {
                                 </TableCell>
 
                             </TableRow>
-                        )) :
-                            <FlexBox column sx={{
-                                backgroundColor: 'white',
-                                height: '10rem',
-                                borderRadius: '0.5rem'
-                            }}>
-
-                                <Typography align='center' width={'100%'}>You do not have any data in the table yet!</Typography>
-                                <Typography align='center' variant='body2' width={'100%'} color={'#444'}>Add data to the table using the +Add button at the top.</Typography>
-                            </FlexBox>}
+                        ))}
                     </TableBody>
                 </Table>
+                {
+                    records.length == 0 ? <FlexBox column sx={{
+                        backgroundColor: 'white',
+                        height: '10rem',
+                        borderRadius: '0.5rem'
+                    }}>
+
+                        <Typography align='center' width={'100%'}>You do not have any data in the table yet!</Typography>
+                        <Typography align='center' variant='body2' width={'100%'} color={'#444'}>Add data to the table using the +Add button at the top.</Typography>
+                    </FlexBox> : <></>
+                }
             </TableContainer>
         </>
     );

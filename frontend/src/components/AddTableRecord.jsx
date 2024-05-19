@@ -1,4 +1,4 @@
-import { Box, Button, Switch, TableCell, TableRow, TextField } from '@mui/material'
+import { Box, Button, IconButton, Switch, TableCell, TableRow, TextField } from '@mui/material'
 import React from 'react'
 import { axiosInstance } from '../../config/axiosConfig'
 import { FlexBox } from './uiElements/AllContainers'
@@ -34,9 +34,9 @@ const AddTableRecord = ({ columns, data, editMode, handleDone }) => {
             } catch (err) {
                 console.log(err)
 
-                if(err?.response?.data){
+                if (err?.response?.data) {
                     alert(err.response.data.split("\n")[0])
-                }else{
+                } else {
                     alert('Oops! Something went wrong.')
 
                 }
@@ -70,9 +70,9 @@ const AddTableRecord = ({ columns, data, editMode, handleDone }) => {
 
             } catch (err) {
                 console.log(err)
-                if(err?.response?.data){
+                if (err?.response?.data) {
                     alert(err.response.data.split("\n")[0])
-                }else{
+                } else {
                     alert('Oops! Something went wrong.')
 
                 }
@@ -82,8 +82,8 @@ const AddTableRecord = ({ columns, data, editMode, handleDone }) => {
 
     }
     return (
-        <form onSubmit={handleFormSubmit} style={{width: 'auto'}}>
-            <TableRow sx={{display: 'flex', padding: '0.25rem', position: 'relative'}}>
+        <form onSubmit={handleFormSubmit} style={{ width: 'auto' }}>
+            <TableRow sx={{ display: 'flex', padding: '0.25rem', position: 'relative', paddingRight: '5rem', alignItems: 'center' }}>
                 {columns.map((col, idx) => (
                     <TableCell
                         key={col.id}
@@ -106,18 +106,18 @@ const AddTableRecord = ({ columns, data, editMode, handleDone }) => {
                             size='small'
                             name={col.fieldName}
                             placeholder={col.fieldName}
-                            label={col.fieldName}
+                            label={col.type.inputType == 'date' ? null : col.fieldName}
                         />
                         }
                     </TableCell>
                 ))}
                 <TableCell align='center' sx={{ width: '100px', position: 'absolute', right: '0rem', border: 'none' }}>
                     <FlexBox>
-                        <Button type='submit'>
+                        <IconButton sx={{ color: 'var(--color-primary)' }} size='small' type='submit'>
                             <i className={'fa fa-check'}
                                 style={{ cursor: 'pointer' }}
                             />
-                        </Button>
+                        </IconButton>
                     </FlexBox>
                 </TableCell>
 
