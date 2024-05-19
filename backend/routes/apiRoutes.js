@@ -151,7 +151,7 @@ router.post('/test', async (req, res) => {
 
 
 router.post('/insert-record', async (req, res) => {
-    const { tableName, values, columns } = req.
+    const { tableName, values, columns } = req.body
 
     const qs = `INSERT INTO "${tableName}" (${columns}) VALUES (${values});`
 
